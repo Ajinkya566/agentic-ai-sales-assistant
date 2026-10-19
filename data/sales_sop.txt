@@ -23,8 +23,9 @@ If information is unavailable, the assistant should clearly state that it cannot
 
 Sales Return Policy
 
-Customers can return a product within 7 days
-of purchase if the product is defective.
-The original invoice is required for returns.
-Refunds are processed within 5 to 7 business days
-after the returned product is approved.
+Sales Return Policy
+
+Customers can return a product within 7 days.
+The product must be unused and in its original packaging.
+Damaged products must be reported within 48 hours.
+Refunds are processed after the returned product is approved.
