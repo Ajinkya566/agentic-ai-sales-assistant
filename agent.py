@@ -1,4 +1,4 @@
-from langchain_ollama import ChatOllama
+from langchain_groq import ChatGroq
 from langchain_core.tools import tool
 from langgraph.prebuilt import create_react_agent
 
@@ -41,10 +41,11 @@ def search_sales_sop(question: str):
     return search_sop(question)
 
 
-llm = ChatOllama(
-    model="llama3.2:3b",
+llm = ChatGroq(
+    model="llama-3.3-70b-versatile",
     temperature=0
 )
+
 
 
 SYSTEM_PROMPT = """
