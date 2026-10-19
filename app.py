@@ -53,8 +53,27 @@ st.caption(
     "RAG, LangGraph and Ollama."
 )
 
-
+st.markdown("""
+<div style="display:flex; gap:15px; flex-wrap:wrap; margin:20px 0;">
+  <div style="background:#123047;padding:20px;border-radius:14px;flex:1;min-width:180px;">
+    <p style="color:#b8c8d9;">PROJECT</p>
+    <h3 style="color:white;">METRO AI</h3>
+    <p style="color:#b8c8d9;">Sales Intelligence</p>
+  </div>
+  <div style="background:#123047;padding:20px;border-radius:14px;flex:1;min-width:180px;">
+    <p style="color:#b8c8d9;">CAPABILITIES</p>
+    <h3 style="color:white;">AI + RAG</h3>
+    <p style="color:#b8c8d9;">Agentic question answering</p>
+  </div>
+  <div style="background:#123047;padding:20px;border-radius:14px;flex:1;min-width:180px;">
+    <p style="color:#b8c8d9;">DATA SOURCE</p>
+    <h3 style="color:white;">Sales CSV</h3>
+    <p style="color:#b8c8d9;">Tool-based analysis</p>
+  </div>
+</div>
+""", unsafe_allow_html=True)
 # Initialize chat history
+
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
