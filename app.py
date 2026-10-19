@@ -23,7 +23,29 @@ st.set_page_config(
     page_icon="🛒",
     layout="centered",
 )
-
+st.markdown("""
+<style>
+.stApp {
+    background: linear-gradient(135deg, #0b1020, #16213e);
+    color: #f8fafc;
+}
+.block-container {
+    max-width: 1050px;
+    padding-top: 2rem;
+}
+h1 {
+    color: #60a5fa !important;
+    font-size: 2.5rem !important;
+    font-weight: 800 !important;
+}
+.stChatMessage {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(148,163,184,0.2);
+    border-radius: 14px;
+    padding: 12px;
+}
+</style>
+""", unsafe_allow_html=True)
 st.title("🛒 METRO Sales Assistant Demo")
 
 st.caption(
