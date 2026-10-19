@@ -1,6 +1,6 @@
 import logging
 from pathlib import Path
-
+import pandas as pd
 import streamlit as st
 from agent import ask_agent
 
@@ -72,6 +72,30 @@ st.markdown("""
   </div>
 </div>
 """, unsafe_allow_html=True)
+# आधीचा METRO dashboard cards code इथे
+
+# Sales Analytics Dashboard
+st.subheader("📊 Sales Analytics")
+
+try:
+    df = pd.read_csv(Path(__file__).parent / "data" / "sales_data.csv")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("#### Product-wise Sales")
+        product_sales = df.groupby("product")["sales"].sum()
+        st.bar_chart(product_sales)
+
+    with col2:
+        st.markdown("#### Region-wise Sales")
+        region_sales = df.groupby("region")["sales"].sum()
+        st.bar_chart(region_sales)
+
+except Exception as e:
+    st.warning(f"Sales charts unavailable: {e}")
+
+
 # Initialize chat history
 
 if "chat_history" not in st.session_state:
