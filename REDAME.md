@@ -1,91 +1,99 @@
-# METRO Sales Assistant – Agentic AI Demo
+METRO — Agentic AI Sales Assistant
 
-## 1. Project Overview
-This project is a local Agentic AI Sales Assistant that answers questions about sales data and Sales SOP documents using natural language.
+An AI-powered sales intelligence assistant that answers business questions using sales data and Standard Operating Procedure (SOP) documents.
 
-## 2. Problem Statement
-Business users need a simple way to retrieve sales insights and policy information without manually searching CSV files and SOP documents.
+Project Overview
 
-## 3. Technologies Used
+METRO helps users analyse sales performance and retrieve policy information through a conversational AI interface. It combines data-analysis tools with Retrieval-Augmented Generation (RAG) to provide useful answers from structured sales data and unstructured SOP documents.
+
+Key Features
+
+- Sales Analytics: Analyse total sales and product performance.
+- Regional Insights: Explore sales across different regions.
+- Conversational AI: Ask business questions in natural language.
+- RAG-Based SOP Search: Retrieve information from sales policy documents.
+- Interactive Dashboard: Visualise sales metrics and charts.
+- Chat History: View previous messages during the session.
+- Cloud Deployment: Access the application through Streamlit Cloud.
+
+Technology Stack
+
 - Python
 - Streamlit
 - LangGraph
 - LangChain
-- Ollama (Llama 3.2)
-- FAISS Vector Store
-- RAG (Retrieval-Augmented Generation)
+- Groq API
+- FAISS
 - Pandas
-- Pytest
-- Python Logging
+- GitHub
+- Streamlit Community Cloud
 
-## 4. Architecture
-1. User enters a question through the Streamlit UI.
-2. LangGraph agent analyses the question.
-3. Sales-related questions use Python tools to retrieve data from CSV.
-4. SOP-related questions use RAG to retrieve relevant document chunks.
-5. FAISS performs similarity search using embeddings.
-6. Ollama generates the final response.
-7. Streamlit displays the answer.
-8. Logging records request status and errors.
+Architecture
 
-## 5. Project Structure
-- `app.py` – Streamlit user interface and chat history
-- `agent.py` – Agent setup and tool orchestration
-- `tools.py` – Sales data tools
-- `rag.py` – Document retrieval using RAG and FAISS
-- `data/sales_data.csv` – Sample sales dataset
-- `data/sales_sop.txt` – Sample SOP document
-- `tests/` – Automated tests
-- `app.log` – Application logs
+1. The user submits a question through the Streamlit interface.
+2. The LangGraph agent processes the question and determines the appropriate action.
+3. Sales-related questions use Python tools to analyse the sales CSV file.
+4. SOP-related questions retrieve relevant information from the SOP knowledge base using RAG.
+5. The agent generates a response using the configured language model.
+6. The application displays the answer and sales analytics in the dashboard.
 
-## 6. Setup Instructions
-Install the required packages:
+Project Structure
 
-```bash
-pip install streamlit langchain langgraph langchain-openai pandas python-dotenv langchain-ollama faiss-cpu
-```
+agentic-ai-sales-assistant/
+├── app.py
+├── agent.py
+├── tools.py
+├── rag.py
+├── data/
+│   ├── sales_data.csv
+│   └── sales_sop.txt
+├── requirements.txt
+├── README.md
+└── .gitignore
 
-Ensure Ollama is installed and the required models are available:
+Run Locally
 
-```bash
-ollama pull llama3.2:3b
-ollama pull nomic-embed-text
-```
+1. Clone the repository:
+   
+   "git clone https://github.com/Ajinkya566/agentic-ai-sales-assistant.git"
 
-Activate the project's virtual environment if applicable.
+2. Open the project directory:
+   
+   "cd agentic-ai-sales-assistant"
 
-## 7. Run the Application
+3. Install dependencies:
+   
+   "pip install -r requirements.txt"
 
-```bash
-streamlit run app.py
-```
+4. Configure the required API key in your local environment or Streamlit secrets.
 
-Open the local URL shown in the terminal.
+5. Start the application:
+   
+   "streamlit run app.py"
 
-## 8. Sample Questions
-- What is the total sales?
-- Which product has the lowest sales?
+Example Questions
+
+- What are the total sales?
 - Which product has the highest sales?
-- What is the sales return policy?
+- What is the return period for a product?
+- What is the return policy for damaged products?
 
-## 9. Testing
-Automated tests are maintained in the `tests/` directory.
+Testing
 
-Run tests using:
+The application was manually tested for:
 
-```bash
-python -m pytest -v
-```
+- Total sales queries
+- Highest-sales product queries
+- SOP return-policy queries
 
-## 10. Logging
-The application records successful agent requests and errors in `app.log`. Logs help troubleshoot application failures.
+Results should be revalidated whenever the code, data, model, or deployment configuration changes.
 
-## 11. Future Improvements
-- Add authentication and role-based access
-- Improve retrieval relevance and source citations
-- Add response evaluation and monitoring
-- Deploy the application to a cloud environment
-- Add production-grade error handling and observability
+Security Notes
 
-## 12. Important Note
-This is a demonstration project using synthetic sample data. It is not an official METRO production system.
+- Never commit API keys or secrets to GitHub.
+- Keep ".env" out of version control.
+- Configure deployment secrets in Streamlit Community Cloud.
+
+Disclaimer
+
+This is a demonstration project using sample sales data and SOP documents. Business results depend on the configured dataset and knowledge base.
