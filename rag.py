@@ -3,7 +3,6 @@ from functools import lru_cache
 
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_ollama import OllamaEmbeddings
 from langchain_community.vectorstores import FAISS
 
 
@@ -13,68 +12,50 @@ SOP_FILE = DATA_DIR / "sales_sop.txt"
 
 @lru_cache(maxsize=1)
 def create_vector_store():
-    """Load SOP, split into chunks and create a local FAISS index."""
-
     if not SOP_FILE.exists():
-        raise FileNotFoundError(
-            f"SOP file not found: {SOP_FILE}"
-        )
+        raise FileNotFoundError(f"SOP file not found: {SOP_FILE}")
 
-    loader = TextLoader(
-        str(SOP_FILE),
-        encoding="utf-8"
-    )
+    # Simple keyword-based retrieval: no local Ollama needed.
+    documents = TextLoader(
+        str(SOP_FILE), encoding="utf-8"
+    ).load()
 
-    documents = loader.load()
-
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50
-    )
-
-    chunks = splitter.split_documents(documents)
-
-    embeddings = OllamaEmbeddings(
-        model="nomic-embed-text"
-    )
-
-    vector_store = FAISS.from_documents(
-        chunks,
-        embeddings
-    )
-
-    return vector_store
+    return documents
 
 
 def search_sop(question: str) -> str:
-    """Search the sales SOP for relevant information."""
-
     try:
-        vector_store = create_vector_store()
+        documents = create_vector_store()
+        text = "\n".join(doc.page_content for doc in documents)
+        q = question.lower()
 
-        results = vector_store.similarity_search_with_score(
-            question,
-            k=3
-        )
+        # Match questions to relevant policy terms.
+        keywords = {
+            "return": ["return", "refund", "damaged", "product"],
+            "refund": ["return", "refund", "damaged", "approved"],
+            "damaged": ["damaged", "48 hours", "report"],
+        }
 
-        filtered_results = [
-            (doc, score)
-            for doc, score in results
-            if score <= 1.0
+        terms = set()
+        for key, values in keywords.items():
+            if key in q:
+                terms.update(values)
+
+        lines = [
+            line.strip()
+            for line in text.splitlines()
+            if line.strip()
         ]
 
-        if not filtered_results:
-            return "This information is not available in the provided SOP."
+        matches = [
+            line for line in lines
+            if any(term in line.lower() for term in terms)
+        ]
 
-        context = "\n\n".join(
-            doc.page_content
-            for doc, score in filtered_results
-        )
+        if matches:
+            return "Information from Sales SOP:\n" + "\n".join(matches)
 
-        return (
-            "Retrieved information from sales_sop.txt:\n"
-            f"{context}\n"
-        )
+        return "This information is not available in the provided SOP."
 
     except Exception as error:
         return f"SOP search failed: {error}"
